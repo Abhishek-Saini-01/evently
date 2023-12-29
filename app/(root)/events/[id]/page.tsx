@@ -1,6 +1,7 @@
 import CheckoutButton from "@/components/shared/CheckoutButton";
 import Collection from "@/components/shared/Collection";
 import { getEventById, getRelatedEventsByCategory } from "@/db/actions/Event.action";
+import { getOrdersByUser } from "@/db/actions/Order.actions";
 import getUserId from "@/db/actions/User.action";
 import { formatDateTime } from "@/lib/utils";
 import { SearchParamProps } from "@/types";
@@ -15,6 +16,10 @@ const EventsDetails = async ({ params: { id }, searchParams }: SearchParamProps)
     eventId: event._id,
     page: searchParams.page as string
   })
+
+  const order = await getOrdersByUser(userId)
+  console.log(order?.data);
+  
 
   return (
     <>
@@ -48,7 +53,7 @@ const EventsDetails = async ({ params: { id }, searchParams }: SearchParamProps)
                 </p>
               </div>
             </div>
-
+            
             <CheckoutButton event={event} userId={userId}/>
 
             <div className="flex flex-col gap-5">

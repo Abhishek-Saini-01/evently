@@ -18,14 +18,14 @@ export const createCategory = async ({categoryName}: CreateCategoryParams) =>{
         handleError(error)
     }
 }
-export const getAllCategory = async () =>{
+export const getAllCategories = async () => {
     try {
-        await connectToDB()
-        const categories = await Category.find()
-
-        return JSON.parse(JSON.stringify(categories))
-        
+      await connectToDB();
+  
+      const categories = await Category.find();
+  
+      return JSON.parse(JSON.stringify(categories));
     } catch (error) {
-        handleError(error)
+      handleError(error)
     }
-}
+  }

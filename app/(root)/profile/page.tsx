@@ -1,21 +1,30 @@
 import Collection from "@/components/shared/Collection"
 import { Button } from "@/components/ui/button"
 import { getEventsByUser } from "@/db/actions/Event.action"
+import { getOrdersByUser } from "@/db/actions/Order.actions"
 import getUserId from "@/db/actions/User.action"
+import { IOrder } from "@/db/models/Order.model"
+import { SearchParamProps } from "@/types"
 import { getServerSession } from "next-auth"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
-const profilePage = async () => {
+const profilePage = async ({ searchParams }:SearchParamProps) => {
   const session = await getServerSession()
   if (!session) return redirect("/login")
   const userId = await getUserId()
 
+  const ordersPage = Number(searchParams?.ordersPage) || 1; 
+  const eventsPage = Number(searchParams?.eventsPage) || 1; 
+
+  const orders = await getOrdersByUser({userId, page: ordersPage})
+  const orderedEvents = orders?.data.map((order:IOrder) => order.event) || [];
+
   const orgainzedEvents = await getEventsByUser({
     userId,
-    page: 1
+    page: eventsPage
   })
-
+  
   
   return (
     <>
@@ -28,16 +37,16 @@ const profilePage = async () => {
         </div>
       </section>
       <section className="wrapper my-8">
-        {/* <Collection
-          data={events?.data}
+        <Collection
+          data={orderedEvents}
           emptyTitle="No event ticket purchased yet"
           emptyStateSubtext="No worries - plenty of exciting events toexplore"
           collectionType="My_Tickets"
           limit={3}
-          page={1}
+          page={ordersPage}
           urlParamName="ordersPage"
-          totalPages={2}
-        /> */}
+          totalPages={orders?.totalPages}
+        />
       
       </section>
 
@@ -56,9 +65,9 @@ const profilePage = async () => {
           emptyStateSubtext="Go create some events now"
           collectionType="Events_Organized"
           limit={6}
-          page={1}
+          page={eventsPage}
           urlParamName="eventsPage"
-          totalPages={2}
+          totalPages={orgainzedEvents?.totalPages}
         />
       
       </section>

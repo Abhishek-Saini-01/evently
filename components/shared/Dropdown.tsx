@@ -17,7 +17,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { createCategory, getAllCategory } from "@/db/actions/Category.action"
+import { createCategory, getAllCategories } from "@/db/actions/Category.action"
 import { ICategory } from "@/db/models/Category.model"
 import { startTransition, useEffect, useState } from "react"
 import { Input } from "../ui/input"
@@ -42,7 +42,7 @@ const Dropdown = ({ onChangeHnadler, value }: DropdownProps) => {
 
     useEffect(() => {
       const getCategories = async () => {
-        const categoriesList = await getAllCategory()
+        const categoriesList = await getAllCategories()
 
         categoriesList && setCategories(categoriesList as ICategory[])
       }
