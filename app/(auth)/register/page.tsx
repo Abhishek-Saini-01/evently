@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const registerPage = () => {
+const RegisterPage = () => {
     const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
@@ -174,4 +174,4 @@ const registerPage = () => {
     )
 }
 
-export default registerPage
+export default RegisterPage

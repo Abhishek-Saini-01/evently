@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-const loginPage = () => {
+const LoginPage = () => {
   const { toast } = useToast()
     const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -87,7 +87,7 @@ const loginPage = () => {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-base text-gray-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <Link
               href="/register"
               title=""
@@ -168,4 +168,4 @@ const loginPage = () => {
   )
 }
 
-export default loginPage
+export default LoginPage
