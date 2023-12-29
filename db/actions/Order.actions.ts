@@ -1,12 +1,14 @@
 "use server"
 
 import { handleError } from '@/lib/utils';
-import { CheckoutOrderParams, CreateOrderParams, GetOrdersByEventParams } from "@/types";
+import { CheckoutOrderParams, CreateOrderParams, GetOrdersByEventParams, GetOrdersByUserParams } from "@/types";
 import { ObjectId } from 'mongodb';
 import { redirect } from 'next/navigation';
 import Stripe from 'stripe';
 import connectToDB from '../db';
+import Event from '../models/Events.model';
 import Order from '../models/Order.model';
+import User from '../models/User.model';
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -113,32 +115,32 @@ export async function getOrdersByEvent({ searchString, eventId }: GetOrdersByEve
 }
 
 // // GET ORDERS BY USER
-// export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUserParams) {
-//   try {
-//     await connectToDB()
+export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUserParams) {
+  try {
+    await connectToDB()
 
-//     const skipAmount = (Number(page) - 1) * limit
-//     const conditions = { buyer: userId }
+    const skipAmount = (Number(page) - 1) * limit
+    const conditions = { buyer: userId }
 
-//     const orders = await Order.distinct('event._id')
-//       .find(conditions)
-//       .sort({ createdAt: 'desc' })
-//       .skip(skipAmount)
-//       .limit(limit)
-//       .populate({
-//         path: 'event',
-//         model: Event,
-//         populate: {
-//           path: 'organizer',
-//           model: User,
-//           select: '_id fullName',
-//         },
-//       })
+    const orders = await Order.distinct('event._id')
+      .find(conditions)
+      .sort({ createdAt: 'desc' })
+      .skip(skipAmount)
+      .limit(limit)
+      .populate({
+        path: 'event',
+        model: Event,
+        populate: {
+          path: 'organizer',
+          model: User,
+          select: '_id fullName',
+        },
+      })
 
-//     const ordersCount = await Order.distinct('event._id').countDocuments(conditions)
+    const ordersCount = await Order.distinct('event._id').countDocuments(conditions)
 
-//     return { data: JSON.parse(JSON.stringify(orders)), totalPages: Math.ceil(ordersCount / limit) }
-//   } catch (error) {
-//     handleError(error)
-//   }
-// }
+    return { data: JSON.parse(JSON.stringify(orders)), totalPages: Math.ceil(ordersCount / limit) }
+  } catch (error) {
+    handleError(error)
+  }
+}
