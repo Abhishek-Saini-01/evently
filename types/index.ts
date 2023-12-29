@@ -1,16 +1,13 @@
 // ====== USER PARAMS
 export type CreateUserParams = {
-    clerkId: string
-    firstName: string
-    lastName: string
+    fullName: string
     username: string
     email: string
-    photo: string
+    password?: string
   }
   
   export type UpdateUserParams = {
-    firstName: string
-    lastName: string
+    fullName: string
     username: string
     photo: string
   }
@@ -89,8 +86,7 @@ export type CreateUserParams = {
     url: string
     organizer: {
       _id: string
-      firstName: string
-      lastName: string
+      fullName: string
     }
     category: {
       _id: string

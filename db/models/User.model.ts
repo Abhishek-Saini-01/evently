@@ -1,6 +1,10 @@
 import { Schema, model, models } from "mongoose";
 
 const userShema = new Schema({
+    fullName:{
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         unique: true,
@@ -8,10 +12,10 @@ const userShema = new Schema({
     },
     password: {
         type: String,
-    }
+    }   
 },{
     timestamps: true
 })
 
-const User = models.User || model("User", userShema);
+const User = models.User || model('User', userShema);
 export default User;

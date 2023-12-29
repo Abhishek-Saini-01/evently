@@ -48,10 +48,12 @@ export  const authOptions:any = {
                     const exitingUser = await User.findOne({email: user.email})
                     if(!exitingUser){
                         const newUser = new User({
-                            email: user.email,
+                            fullName: user.name,
+                            email: user.email
                         })
 
                         await newUser.save()
+                        
                         return true;
                     }
                     

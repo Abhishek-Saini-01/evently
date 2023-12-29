@@ -23,14 +23,15 @@ const registerPage = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
-        const email = e.target[0].value;
-        const password = e.target[1].value;
+        const fullName = e.target[0].value;
+        const email = e.target[1].value;
+        const password = e.target[2].value;
 
-        if (!email || !password) {
+        if (!fullName || !email || !password) {
             toast({
                 variant: "destructive",
                 title: "Invlid email and password",
-                description: "Please provide a valid email and password",
+                description: "Please provide enter all information",
                 action: <ToastAction altText="Try again">Try again</ToastAction>,
             })
             return;
@@ -44,6 +45,7 @@ const registerPage = () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
+                    fullName,
                     email,
                     password
                 })
@@ -111,7 +113,20 @@ const registerPage = () => {
                     </p>
                     <form onSubmit={handleSubmit} className="mt-8">
                         <div className="space-y-5">
-
+                            <div>
+                                <label htmlFor="name" className="text-base font-medium text-gray-900">
+                                    {' '}
+                                    Full Name{' '}
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                        type="text"
+                                        placeholder="Full Name"
+                                        id="name"
+                                    ></input>
+                                </div>
+                            </div>
                             <div>
                                 <label htmlFor="email" className="text-base font-medium text-gray-900">
                                     {' '}

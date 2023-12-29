@@ -10,6 +10,7 @@ import NavItems from "./NavItems"
 
 const Header = () => {
   const { data: session } = useSession()
+  
   return (
     <header className="w-full border-b">
       <div className="wrapper flex items-center justify-between">
@@ -26,7 +27,7 @@ const Header = () => {
            </nav>
           ): null}
 
-        <div className="flex w-32 justify-end gap-3">
+        <div className="flex items-center w-32 justify-end gap-3">
           {session?(
             <MobileNav />
           ): null}
@@ -45,6 +46,7 @@ const Header = () => {
               </DropdownMenuTrigger>
                <DropdownMenuContent>
                 <DropdownMenuLabel>{session?.user?.email}</DropdownMenuLabel>
+                <DropdownMenuLabel>{session?.user?.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <Button onClick={()=>signOut()} className="w-full">Logout</Button>
