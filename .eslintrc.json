@@ -1,3 +1,10 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next",
+  "rules": {
+    "no-console": "off"
+  },
+  "globals": {
+    "React": true
+  },
+  "ignorePatterns": ["app/api/[...nextauth]/route.ts"]
 }
